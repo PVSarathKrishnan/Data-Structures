@@ -60,7 +60,7 @@ class SLinkedList{
       prev = temp;
       temp = temp.next;
     }
-    prev!.next = newNode;  //newNode is placed between prev and temp
+    prev?.next = newNode;  //newNode is placed between prev and temp
     newNode.next = temp;
   }
 
@@ -146,13 +146,13 @@ void displayReverse(){
   Node? nextNode = head;
   Node? prev;
   while(currNode != null){
-    nextNode = nextNode!.next;
+    nextNode = currNode.next;
     currNode.next = prev;
     prev = currNode;
     currNode = nextNode;
   }
   head=prev;
-}
+} 
 
 //remove duplicate
 void removeDuplicate(){
@@ -167,7 +167,7 @@ void removeDuplicate(){
         ref = ref.next;
       }
     }
-    temp = temp.next;
+    temp = temp.next; 
   }
 }
 
@@ -202,6 +202,7 @@ void main(){
   list.addValue(40);
   list.addValue(30);
   list.addValue(40);
+  list.addValue(40);
 
 
   // list.addBeg(1);
@@ -215,7 +216,7 @@ void main(){
 
   //list.search(2);
   //list.displayReverse();
-  //list.removeDuplicate();
+  list.removeDuplicate();
   //list.sort();
   list.display();
 
