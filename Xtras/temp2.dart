@@ -55,38 +55,47 @@ tail=newNode;
   }
 
   void addAfter(int data,int target){
-    Node? newNode = Node(data);
-    Node? temp = head;
-    while(temp != null){
-      if(temp.data == target){
-        break;
-      }
-      temp = temp.next;
-    }
-    newNode.next = temp?.next;
-    newNode.prev = temp;
-    temp!.next = newNode;
-  }
-
-  void addBefore(int data,int target){
     Node newNode = Node(data);
     Node? temp = head;
-    if(head!.data == target){
-      newNode.next = head;
-      head!.prev=newNode;
-      head=newNode;
-      return;
-    }
     while(temp!=null){
       if(temp.data == target){
         break;
       }
-      temp = temp.next;
+      temp=temp.next;
     }
-    newNode.next = temp;
-    newNode.prev = temp!.prev;
-    temp.prev!.next = newNode;
-    temp.prev=newNode;
+    newNode.next = temp!.next;
+    newNode.prev=temp;
+    temp.next=newNode;
+  }
+
+  void addBefore(int data,int target){
+    Node? newNode = Node(data);
+    Node? temp = head;
+    if(head!.data == target){
+      newNode.next = head;
+      head!.prev=newNode;
+      head = newNode;
+      return;
+    }
+   while(temp!.data != null){
+    if(temp.data == target){
+      break;
+    }
+    temp =temp.next;
+   }
+   newNode.next = temp;
+   newNode.prev = temp.prev;
+   temp.prev!.next=newNode;
+   temp.prev = newNode;
+  }
+
+  void reverse(){
+    Node? temp = tail;
+    while(temp!=null){
+      print(temp.data);
+      temp = temp.next;
+      
+    }
   }
 
 }
@@ -101,6 +110,7 @@ void main(){
   l.delete(20);
 
   l.addAfter(30, 10);
+  l.addBefore(20, 30);
 
   l.display();
 
