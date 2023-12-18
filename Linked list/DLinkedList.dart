@@ -128,7 +128,7 @@ void main(){
   list.addValues(20);
   list.addValues(30);
   list.addValues(40);
-  list.addValues(40);
+  list.addValues(50);
   list.addValues(40);
 
   //list.addAfter(2, 40);

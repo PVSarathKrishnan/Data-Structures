@@ -7,7 +7,6 @@ return n+sum(n-1);
 
 void main(){
 
-  int n = 5;
-  print(sum(n));
+  print(sum(3));
 
 }

@@ -5,7 +5,7 @@ class Encryptor{
 
     int newKey = key%26;
 
-    List<String > charArray =[];
+    List<String> charArray =[];
 
     for(int i=0;i<value.length;i++){ 
      int pos = value.codeUnitAt(i)+newKey;

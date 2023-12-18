@@ -1,3 +1,4 @@
+
 class Node{
   int? data;
   Node? next;
@@ -8,110 +9,112 @@ class Node{
   }
 }
 
-class Dll{
+class dLL{
   Node? head;
   Node? tail;
 
-  void add(int data){
+  void addNode(int data){
     Node newNode = Node(data);
-    if(head == null){
+    if(head==null){
       head = newNode;
     }
     else{
-      tail?.next=newNode;
+      tail?.next = newNode;
       newNode.prev = tail;
     }
-tail=newNode;
+    tail = newNode;
   }
 
   void display(){
     Node? temp = head;
-    if(head==null){
-      print('empty');
-    }
-    else{
-      while(temp!=null){
-        print(temp.data);
-        temp = temp.next;
-      }
-    }
-  }
-
-  void delete(int data){
-    Node? temp = head;
-    if(temp!=null && temp.data == data){
-      head=temp.next;
-      return;
-    }
-    else{
-      while(temp != null){
-        if(temp.data == data){
-          break;
-        }
-        temp = temp.next;
-      }
-      temp!.prev!.next = temp.next;
+    while(temp!=null){
+      print(temp.data);
+      temp = temp.next;
     }
   }
 
   void addAfter(int data,int target){
-    Node newNode = Node(data);
+    Node? newNode = Node(data);
     Node? temp = head;
     while(temp!=null){
       if(temp.data == target){
         break;
       }
-      temp=temp.next;
+      temp = temp.next;
     }
-    newNode.next = temp!.next;
+    newNode.next = temp?.next;
+    temp?.next=newNode;
     newNode.prev=temp;
-    temp.next=newNode;
   }
 
   void addBefore(int data,int target){
     Node? newNode = Node(data);
     Node? temp = head;
-    if(head!.data == target){
-      newNode.next = head;
-      head!.prev=newNode;
-      head = newNode;
-      return;
+    while(temp!=null){
+      if(temp.data == target){
+        break;
+      }
+      temp = temp.next;
     }
-   while(temp!.data != null){
-    if(temp.data == target){
-      break;
+    newNode.next = temp;
+    newNode.prev = temp?.prev;
+    temp!.prev?.next = newNode;
+    temp.prev = newNode;
+  }
+
+  void delete(int target){
+    Node? temp = head;
+    while(temp != null){
+      if(temp.data == target ){
+        break;
+      }
+      temp = temp.next;
     }
-    temp =temp.next;
-   }
-   newNode.next = temp;
-   newNode.prev = temp.prev;
-   temp.prev!.next=newNode;
-   temp.prev = newNode;
+    temp!.prev?.next = temp.next;
   }
 
   void reverse(){
-    Node? temp = tail;
+    Node?  temp = tail;
     while(temp!=null){
       print(temp.data);
-      temp = temp.next;
-      
+      temp=temp.prev;
     }
+  }
+
+  void duplicate(){
+    Node? i = head;
+    while(i != null){
+      Node? j = i.next;
+      while(j !=null && j.data == i.data){
+        j = j.next;
+      }
+      i.next =j;
+      if(j== tail && j?.data == i.data){
+        tail = i;
+        tail?.next = null;
+      }
+      i = j;
+    }
+    
   }
 
 }
 
 void main(){
+  dLL d =dLL();
 
-  Dll l=Dll();
+  d.addNode(10);
+  d.addNode(20);
+  d.addNode(20);
+  d.addNode(30);
+  // d.addAfter(15, 10);
+  // d.addAfter(17, 15);
 
-  l.add(10);
-  l.add(20);
+  // d.addBefore(25, 30);
+  // d.addBefore(22, 25);
 
-  l.delete(20);
+  // d.reverse();
+  d.duplicate();
 
-  l.addAfter(30, 10);
-  l.addBefore(20, 30);
-
-  l.display();
-
+  d.display();
 }
