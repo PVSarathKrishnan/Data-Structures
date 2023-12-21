@@ -10,10 +10,10 @@ void main(){
   studentAges['d'] = 28;
 
   //print
-  // print('age of a is ${studentAges['a']}');
+   print('age of a is ${studentAges['a']}');
 
   //update
-  // studentAges['a'] = 26;
+   studentAges['a'] = 26;
 
   // print('updated age of a is ${studentAges['a']}');
 
@@ -33,9 +33,9 @@ void main(){
   // }
 
   //iterate key-value
-  // studentAges.forEach((key, value) {
-  //   print('$key : $value');
-  // });
+  studentAges.forEach((key, value) {
+    print('$key : $value');
+  });
 
   //clear values
   // print("value : $studentAges");

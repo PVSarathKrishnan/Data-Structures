@@ -1,3 +1,4 @@
+//stack using linked list 
 
 class Node{
   int? data;

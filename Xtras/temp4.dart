@@ -1,13 +1,13 @@
+import '../Sort/merge.dart';
 
 class quicksort{
-
+  
   List<int> quick(List<int>arr){
     sort(arr, 0, arr.length-1);
     return arr;
   }
 
   void sort(List<int>arr,int str,int end){
-
     if(str>=end){
       return;
     }
@@ -15,38 +15,33 @@ class quicksort{
     int left = str+1;
     int right = end;
 
-    while(left <= right){
-
-      if(arr[left] > arr[pivot] && arr[right] < arr[pivot]){
+    while(str<=end){
+      if(arr[left]>arr[pivot] && arr[right]<arr[pivot]){
         swap(arr, left, right);
         left++;
         right--;
       }
-
-      if(arr[left]<=arr[pivot]){
+      if(arr[left]<arr[pivot]){
         left++;
       }
-
-      if(arr[right] >= arr[pivot]){
+      if(arr[right]>arr[pivot]){
         right--;
       }
-   }
-  swap(arr, right, pivot);
-  sort(arr, str, right-1);
-  sort(arr, right+1, end);
+    }
+    swap(arr, right, pivot);
+    sort(arr, str, right-1);
+    sort(arr, right+1, end);
   }
 
-  void swap(List<int>arr,int i ,int j){
+  void swap(List<int>arr,int i,int j){
     int temp = arr[i];
     arr[i] = arr[j];
-    arr[j] = temp;
+    arr[j]=temp;
   }
-
 }
 
 void main(){
-List<int> arr = [1,3,4,2,5,7,2];
-
-quicksort q =quicksort();
-print(q.quick(arr));
+  List<int>arr=[2,1,5,2,3,2,2];
+  mergeSort m = mergeSort();
+  print(m.merge(arr));
 }
