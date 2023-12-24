@@ -22,7 +22,7 @@ void main(){
   //   print(studentAges['c']);
   // }
 
-  //iterate using values
+  //iterate using key
   // for(var key in studentAges.keys){
   //   print(key.hashCode);
   // }

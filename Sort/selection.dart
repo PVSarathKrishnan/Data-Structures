@@ -6,7 +6,7 @@ class selection{
         if(arr[small] > arr[j]){
           small = j;
         }
-      }
+      } 
       int  temp = arr[small];
       arr[small] = arr[i];
       arr[i] = temp;
