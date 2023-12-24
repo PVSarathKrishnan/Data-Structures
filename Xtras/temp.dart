@@ -1,205 +1,99 @@
+class MinHeap {
+  List<int> heap = [];
 
-class Node{
-  int?data;
-  Node? next;
-  Node(int data){
-    this.data = data;
+  MinHeap(List<int> arr) {
+    buildHeap(arr);
+  }
+
+  void buildHeap(List<int> arr) {
+    heap = arr;
+    for (int i = parent(heap.length - 1); i >= 0; i--) {
+      shiftDown(i);
+    }
+  }
+
+  void shiftDown(int cuIdx) {
+    int endIdx = heap.length - 1;
+    int leftIdx = leftChild(cuIdx);
+
+    while (leftIdx <= endIdx) { 
+      int rightIdx = rightChild(cuIdx);
+      int idxToShift;
+
+      if (rightIdx <= endIdx && heap[rightIdx] < heap[leftIdx]) { 
+        idxToShift = rightIdx;
+      } else {
+        idxToShift = leftIdx;
+      }
+
+      if (heap[cuIdx] > heap[idxToShift]) {
+        swap(heap, cuIdx, idxToShift);
+        cuIdx = idxToShift;
+        leftIdx = leftChild(cuIdx);
+      } else {
+        return;
+      }
+    }
+  }
+
+  void shiftUp(int cuIndex) {
+    int parentIdx = parent(cuIndex);
+    while (cuIndex > 0 && heap[parentIdx] > heap[cuIndex]) {
+      swap(heap, cuIndex, parentIdx);
+      cuIndex = parentIdx;
+      parentIdx = parent(cuIndex);
+    }
+  }
+
+  int peek() {
+    return heap[0];
+  }
+
+  void remove() {
+    swap(heap, 0, heap.length - 1);
+    heap.remove(heap.length - 1);
+    shiftDown(0);
+  }
+
+  void insert(int value) {
+    heap.add(value);
+    shiftUp(heap.length - 1);
+  }
+
+  int parent(int i) {
+    return (i - 1) ~/ 2;
+  }
+
+  int leftChild(int i) {
+    return 2 * i + 1;
+  }
+
+  int rightChild(int i) {
+    return 2 * i + 2;
+  }
+
+  void display() {
+    for (int i = 0; i < heap.length; i++) {
+      print(heap[i]);
+    }
+  }
+
+  void swap(List<int> arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
   }
 }
 
-class Sll{
-  Node? head;
-  Node? tail;
+void main() {
+  List<int> arr = [9, 7, 8, 2];
+  MinHeap mheap = MinHeap(arr);
 
-  void add(int data){
-    Node newNode = Node(data);
-    if(head == null){
-      head = newNode;
-    }
-    tail?.next = newNode;
-    tail = newNode;
-  }
+  mheap.insert(10);
+  mheap.insert(20);
+  mheap.insert(30);
 
-  void display(){
-    Node? temp = head;
-    if(head == null){
-      Node? temp = head;      print('empty');return;
-    }
-    while(temp!=null){
-      print(temp.data);
-      temp = temp.next;
-    }
-  }
+  // mheap.remove();
 
-  void addH(int data){
-    Node newNode = Node(data);
-    newNode.next=head;
-    head=newNode;
-  }
-
-  void addT(int data){
-    Node newNode = Node(data);
-    tail?.next=newNode;
-    tail = newNode;
-  }
-
-  void addB(int data,int target){
-    Node newNode = Node(data);
-    Node? temp = head;
-    Node? prev;
-    if(temp!.data == target){
-      newNode.next = head;
-      head = newNode;
-    }
-    while(temp!=null){
-      if(temp.data == target){
-        break;
-      }
-      prev = temp;
-      temp =temp.next;
-    }
-    prev?.next = newNode;
-    newNode.next = temp;
-  }
-
-  void addAfter(int data,int target){
-    Node newnode = Node(data);
-    Node? temp = head;
-    while(temp != null){
-      if(temp.data == target){
-        break;
-      }
-      temp = temp.next;
-    }
-    if(temp == tail){
-      tail!.next=newnode;
-      tail = newnode;
-      return;
-    }
-    newnode.next = temp!.next;
-    temp.next = newnode;
-  }
-
-  void delete(int data){
-    Node? temp = head;
-    Node? prev;
-    if(temp!=null && temp.data == data){
-      head=temp.next;
-      return;
-    }
-    while(temp != null){
-      if(temp.data == data){
-        break;
-      }
-      prev = temp;
-      temp = temp.next;
-    }
-    prev!.next = temp!.next;
-  }
-
-  void deleteH(){
-    head = head!.next;
-  }
-
-  void deleteT(){
-    Node? temp = head;
-    Node? prev;
-    while(temp !=null){
-      if(temp.data == tail!.data){
-        break;
-      }
-      prev= temp;
-      temp = temp.next;
-    }
-    prev!.next = null;
-    tail = prev;
-  }
-
-  void sort(){
-    List<int> list =[];
-    Node? temp = head;
-    while(temp!=null){
-      list.add(temp.data!);
-      temp = temp.next;
-    }
-    list.sort();
-    head=null;
-    for(int i=0;i<list.length;i++){
-      add(list[i]);
-    }
-  }
-
-  void search(int data){
-    Node?temp = head;
-    int i=0;
-    while(temp!=null){
-      if(temp.data == data){
-            print("position ${i+1}");
-      }
-      i++;
-      temp = temp.next;
-    }
-  }
-
-  void reverse(){
-    Node? currNode=head;
-    Node? nextNode=head;
-    Node?prev;
-    while(currNode!=null){
-      nextNode =currNode.next;
-      currNode.next = prev;
-      prev = currNode;
-      currNode = nextNode;
-    }
-    head= prev;
-  }
-
-  void duplicates(){
-    Node? temp = head;
-    while(temp!=null){
-      Node? ref=temp;
-      while(ref!.next != null){
-        if(temp.data == ref.next!.data){
-          ref.next = ref.next!.next;
-        }
-        else{
-          ref=ref.next;
-          }
-      }
-      temp=temp.next;
-    }
-  }
-
-}
-
-void main(){
-Sll l = Sll();
-
-l.add(80);
-l.add(10);
-l.add(20);
-l.add(30);
-l.add(10);
-l.add(20);
-l.add(30);
-
-// l.addH(1);
-// l.addT(40);
-
-// l.addB(35, 40);
-// l.addAfter(45, 40);
-
-// l.delete(40);
-
-// l.deleteH();
-// l.deleteT();
-
-l.sort();
-
-//l.search(20);
-
-l.reverse();
-l.duplicates();
-
-l.display();
+  mheap.display();
 }

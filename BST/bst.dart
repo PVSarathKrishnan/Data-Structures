@@ -78,12 +78,13 @@ class binaryST{
   void deleteHelper(int data,Node? curNode,Node? parent){
     while(curNode != null){
 
-      if(data<curNode.data){//move to left
+      if(data < curNode.data){//move to left
         parent =curNode;
         curNode =curNode.left;
       }
-      else if(data >curNode.data){//move to right
+      else if(data > curNode.data){//move to right
         parent =curNode;
+        curNode =curNode.right;
       }
       else{//item found
         if(curNode.left!=null && curNode.right!=null){
@@ -92,18 +93,18 @@ class binaryST{
         }
         else{
           Node? child = (curNode.left!=null)?curNode.left : curNode.right;
-          if(parent == null){
-            root = child;
-          }
-          else{
-            if(parent.left == curNode){
-              parent.left = child;
-            }
-            else{
-              parent.right = child;
-            }
-          }
-        }
+                if(parent == null){
+                  root = child;
+                }
+                else{
+                        if(parent.left == curNode){
+                          parent.left = child;
+                        }
+                        else{
+                          parent.right = child;
+                        }
+              } 
+             }
         break;
       }
     }
