@@ -87,16 +87,16 @@ class binaryST{
         curNode =curNode.right;
       }
       else{//item found
-        if(curNode.left!=null && curNode.right!=null){
+        if(curNode.left!=null && curNode.right!=null){ //node has 2 children
           curNode.data = getMin(curNode.right);//data swapped
           deleteHelper(data, curNode.right, curNode);
         }
-        else{
+        else{//node has one child or no child
           Node? child = (curNode.left!=null)?curNode.left : curNode.right;
                 if(parent == null){
-                  root = child;
+                  root = child; //if node to be  deleted is root
                 }
-                else{
+                else{//update parents reference to the single child
                         if(parent.left == curNode){
                           parent.left = child;
                         }

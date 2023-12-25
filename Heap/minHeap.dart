@@ -29,7 +29,7 @@ class minHeap{
       }
 
       if(heap[currentIndex] > heap[indexToShift]){ //if current value is greater
-        swap(heap, currentIndex, indexToShift);
+        swap(heap, currentIndex, indexToShift); 
         currentIndex = indexToShift;
         leftIndex = leftChild(currentIndex);
       }
@@ -69,17 +69,10 @@ class minHeap{
     a[j] = temp;
   }
 
-  int parent(int i){
-    return (i-1)~/2;
-  }
+int parent(int i)=> (i-1)~/2;
+int leftChild(int i)=> 2*i+1;
+int rightChild(int i) => 2*i+2;
 
-  int leftChild(int i){
-    return 2*i+1;
-  }
-
-  int rightChild(int i){
-    return 2*i+2;
-  }
 
   void display(){
     for(int i=0;i<heap.length;i++){
