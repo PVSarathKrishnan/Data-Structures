@@ -1,130 +1,63 @@
 
-import 'dart:mirrors';
+import 'dart:collection';
 
-class Node{
-  int data;
-  Node? left,right;
-  Node({required this.data});
+class Graph{
+
+  HashMap<int,List<int>> graph = HashMap();
+
+  void insert(int vertex,int edge,bool bi){
+    if(!graph.containsKey(vertex)){
+      graph[vertex]=[];
+    }
+    if(!graph.containsKey(edge)){
+      graph[edge] = [];
+    }
+    graph[vertex]?.add(edge);
+    if(bi){
+      graph[edge]?.add(vertex);
+    }
+  }
+
+  void display(){
+    graph.forEach((key, value) {
+      print("$key : $value");
+    });
+  }
+
+  void remove(int data){
+    if(graph.containsKey(data)){
+      graph.remove(data);
+      graph.forEach((key, value) {
+        value.remove(data);
+      });
+    }
+  }
+
+  void bfs(int startvertex){
+    Queue<int> queue = Queue();
+    Set<int>visited = Set();
+
+    queue.add(startvertex);
+    visited.add(startvertex);
+
+    while(queue.isNotEmpty){
+      int currentVertex = queue.removeFirst();
+      print(currentVertex);
+
+      
+    }
+  }
+
 }
 
-class bst{
-  Node? root;
+void main(){
+  Graph g = Graph();
 
-  void insert(int data){
-    Node newNode = Node(data: data);
-    Node? currNode = root;
-    if(currNode == null){
-      root = newNode;
-      return;
-    }
-    while(true){
-      if(data<currNode!.data){
-        if(currNode.left == null){
-          currNode.left = newNode;
-          break;
-        }
-        currNode = currNode.left;
-      }
-      else{
-        if(currNode.right==null){
-          currNode.right = newNode;
-          break;
-        }
-        currNode = currNode.right;
-      }
-    }
-  }
+  g.insert(5, 10, true);
+  g.insert(6, 10, false);
+  g.insert(5, 10, false);
 
-  bool contains(int data){
-    Node? currNode = root;
-    while(currNode!=null){
-      if(data<currNode.data){
-        currNode = currNode.left;
-      }
-      else if (data >  currNode.data){
-        currNode = currNode.right;
-      }
-      else{
-        return true;
-      }
-    }
-    return false;
-  }
+  g.remove(6);
 
-  int getClose(int target){
-    Node? currNode = root;
-    int closest = currNode!.data;
-    while(currNode != null){
-      if((target-closest).abs() > (target-currNode.data).abs()){
-        closest = currNode.data;
-      }
-      if(target<currNode.data){
-        currNode = currNode.left;
-      }
-      else if(target > currNode.data){
-        currNode = currNode.right;
-      }
-      else{
-        break;
-      }
-    }
-    return closest;
-  }
-
-  void delete(int data){
-    deleteHelper(data, root, null);
-  }
-  void deleteHelper(int data,Node? currNode,Node? parent){
-    while(currNode!=null){
-      if(data<currNode.data){
-        parent = currNode;
-        currNode = currNode.left;
-      }
-      else if(data>currNode.data){
-        parent = currNode;
-        currNode = currNode.right;
-      }
-      else{
-         if(currNode.left!=null && currNode.right!=null){
-          currNode.data = getMin(currNode.right);
-          deleteHelper(data, currNode.right, currNode);
-         }
-         else{
-          Node? child=(currNode.left!=null)? currNode.left:currNode.right;
-          if(parent==null){
-            root=child;
-          }
-          else{
-            if(parent.left==currNode){
-              parent.left=child;
-            }
-            else{
-              parent.right = child;
-            }
-          }
-         }
-      }
-    }
-  }
-
-  int getMin(Node? currNode){
-    if(currNode!.left==null){
-      return currNode.data;
-    }
-    else{
-      return getMin(currNode.left);
-    }
-  }
-
-  void inOrder(){
-    inOrderHelper(root);
-  }
-  void inOrderHelper(Node? node){
-    if(node!=null){
-      inOrderHelper(node.left);
-      print(node.data);
-      inOrderHelper(node.right);
-    }
-  }
-
+  g.display();
 }

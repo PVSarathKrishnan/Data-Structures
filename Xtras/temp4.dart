@@ -1,58 +1,120 @@
-class minHeap{
 
-  List<int>heap=[];
-  minHeap(List<int>arr){
-    buildHeap(arr);
-  }
+class Node{
+  int data;
+  Node? left,right;
+  Node({required this.data});
+}
 
-  void buildHeap(List<int>arr){
-    heap = arr;
-    for(int i= parent(heap.length-1);i>=0;i--){
-      shiftDown(i);
+class bst{
+
+  Node? root;
+
+  void insert(int data){
+    Node newNode = Node(data: data);
+    Node? currNode = root;
+    if(currNode==null){
+      root = newNode;
     }
-  }
-
-  void shiftDown(int currentrIndex){
-    int leftIndex=leftChild(currentrIndex);
-    int endIndex=heap.length-1;
-    while(leftIndex<=endIndex){
-      int rightIndex = rightChild(currentrIndex);
-      int indextoShift;
-      if(rightIndex<=endIndex && heap[rightIndex]<heap[leftIndex]){
-        indextoShift = rightIndex;
+    while(true){
+      if(data<currNode!.data){
+        if(currNode.left==null){
+          currNode.left=newNode;
+          break;
+        }
+        currNode = currNode.left;
       }
       else{
-        indextoShift = leftIndex;
-      }if(heap[currentrIndex]>heap[indextoShift]){
-          swap(heap, currentrIndex, indextoShift);
-          currentrIndex = indextoShift;
-          leftIndex = leftChild(currentrIndex);
+        if(currNode.right==null){
+          currNode.right= newNode;
+          break;
+        }
+        currNode = currNode.right;
+      }
+    }
+  }
+
+  bool contains(int target){
+    Node? currNode=root;
+    while(currNode!=null){
+    if(target<currNode.data){
+      currNode=currNode.left;
+    }
+    else if(target>currNode.data){
+      currNode = currNode.right;
+    }
+    else{
+      return true;
+    }
+    }
+    return false;
+  }
+
+  int getClose(int target){
+    Node? currNode = root;
+    int closest = currNode!.data;
+
+    while(currNode!=null){
+
+      if((target-closest).abs() > (target-currNode.data).abs()){
+      closest = currNode.data;
+    }
+    if(target<currNode.data){
+      currNode= currNode.left;
+    }
+    else if(target > currNode.data){
+      currNode = currNode.right;
+    }
+    else{
+      break;
+    }
+    }
+        return closest;
+  }
+
+  void delete(int data){
+    deleteHelper(data, root, null);
+  }
+  void deleteHelper(int data,Node? currentNode,Node? parent){
+    while(currentNode != null){
+      if(data<currentNode.data){
+        currentNode = currentNode.left;
+      }
+      else if(data > currentNode.data){
+        currentNode = currentNode.right;
       }
       else{
-        return;
+        if(currentNode.left!=null && currentNode.right!=null){
+          getMin(currentNode.right);
+          deleteHelper(data, currentNode.right, currentNode);
+        }
+        else{
+          Node? child = (currentNode.left!=null)? currentNode.left:currentNode.right;
+          if(parent==null){
+            root = child;
+          }
+          else{
+            if(parent.left == currentNode){
+              parent.left = child;
+            }
+            else{
+              parent.right = child;
+            }
+          }
+        }
+        break;
       }
     }
   }
 
-  void shiftUp(int currentIndex){
-    int parentIndex = parent(currentIndex);
-    while(currentIndex>0 && heap[parentIndex]>heap[currentIndex]){
-      swap(heap, parentIndex, currentIndex);
-      currentIndex=parentIndex;
-      parentIndex = parent(currentIndex);
+  int? getMin(Node? currNode){
+    if(currNode?.left ==  null){
+      return currNode?.data;
+    }
+    else{
+      return getMin(currNode?.left);
     }
   }
-
-  void swap(List<int>a,int i,int j){
-    int temp = a[i];
-    a[i] = a[j];
-    a[j] = temp;
-  }
-
-
-int parent(int i)=>(i-1)~/2;
-int leftChild(int i)=>2*i+1;
-int rightChild(int i)=>2*i+2;
+  
 }
 
 void main(){

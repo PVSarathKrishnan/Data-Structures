@@ -1,19 +1,19 @@
 import 'dart:collection';
 
-class Graph { 
+class Graph {
 
   HashMap<int, List<int>> graph = HashMap();
-  
-  void insert(int vertux, int edge, bool isBidirect) {
-    if (!graph.containsKey(vertux)) {
-      graph[vertux] = [];
+
+  void insert(int vertex, int edge, bool isBidirect) {
+    if (!graph.containsKey(vertex)) {
+      graph[vertex] = [];
     }
     if (!graph.containsKey(edge)) {
       graph[edge] = [];
     }
-    graph[vertux]!.add(edge);
+    graph[vertex]!.add(edge);
     if (isBidirect) {
-      graph[edge]!.add(vertux);
+      graph[edge]!.add(vertex);
     }
   }
 
@@ -104,5 +104,5 @@ void main(List<String> args) {
   g.display();
 
   print("");
-  g.dfs;
+  g.dfs();
 }
