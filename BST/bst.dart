@@ -125,7 +125,7 @@ class binaryST{
   inOrderHelper(Node? node){
     if(node!=null){
       inOrderHelper(node.left);
-      print((node.data));
+      print(node.data);
       inOrderHelper(node.right);
     }
   }

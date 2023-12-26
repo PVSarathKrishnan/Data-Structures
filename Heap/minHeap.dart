@@ -85,7 +85,7 @@ int rightChild(int i) => 2*i+2;
 void main(){
   List<int> arr =[9,7,8,2];
 
-  minHeap m = minHeap(arr);
+  minHeap m = minHeap(arr); 
   m.insert(10);
   m.insert(20);
   m.insert(30);
