@@ -101,8 +101,9 @@ void main(List<String> args) {
   g.insert(18, 8, false);
   g.insert(23, 4, false);
 
-  g.display();
+  // g.display();
 
   print("");
-  g.dfs();
+  // g.dfs();
+  g.bfsTraversal(10);
 }

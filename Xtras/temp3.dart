@@ -1,175 +1,72 @@
-import 'dart:io';
+class minHeap{
+  List<int> heap=[];
 
-class Node {
-  int data;
-  Node? left, right;
-  Node({required this.data});
-}
+  minHeap(List<int>arr){
+    buildHeap(arr);
+  }
 
-class BinaryTree {
-  Node? root;
-
-  void insert(int data) {
-    Node newNode = Node(data: data);
-
-    Node? currentNode = root;
-    if (currentNode == null) {
-      root = newNode;
-      return;
+  void buildHeap(List<int>arr){
+    heap = arr;
+    for(int i = parent(heap.length-1);i>=0;i--){
+      shiftDown(i);
     }
-    while (true) {
-      if (data < currentNode!.data) {
-        if (currentNode.left == null) {
-          currentNode.left = newNode;
-          break;
-        }
-        currentNode = currentNode.left;
-      } else {
-        if (currentNode.right == null) {
-          currentNode.right = newNode;
-          break;
-        }
-        currentNode = currentNode.right;
+  }
+
+  void shiftDown(int currentIndex){
+    int endIndex=heap.length-1;
+    int leftIndex = leftChild(currentIndex);
+    while(leftIndex<=endIndex){
+      int rightIndex = rightChild(currentIndex);
+      int indexToShift;
+      if(rightIndex<=endIndex && heap[rightIndex]<heap[leftIndex]){
+        indexToShift = rightIndex;
+      }
+      else{
+        indexToShift = leftIndex;
+      }
+      if(heap[currentIndex]>heap[indexToShift]){
+        swap(heap, currentIndex, indexToShift);
+        currentIndex = indexToShift;
+        leftIndex=leftChild(currentIndex);
+      }
+      else{
+        return;
       }
     }
   }
 
-  bool contains(int data) {
-    Node? currentNode = root;
-
-    while (currentNode != null) {
-      if (data < currentNode.data) {
-        currentNode = currentNode.left;
-      } else if (data > currentNode.data) {
-        currentNode = currentNode.right;
-      } else {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  void inOrder() {
-    inOrderHelper(root!);
-  }
-
-  inOrderHelper(Node? node) {
-    if (node != null) {
-      inOrderHelper(node.left);
-      //print(node.data);
-      stdout.write("${node.data} ");
-      inOrderHelper(node.right);
+  void shiftUp(int currentIndex){
+    int parentIndex = parent(currentIndex);
+    while(currentIndex>0 && heap[parentIndex] > heap[currentIndex]){
+      swap(heap, currentIndex, parentIndex);
+      currentIndex = parentIndex;
+      parentIndex = parent(currentIndex);
     }
   }
 
-  void preOrder() {
-    preOrderHelper(root);
+  int peek(){
+    return heap[0];
   }
 
-  void preOrderHelper(Node? node) {
-    if (node != null) {
-      stdout.write("${node.data} ");
-      preOrderHelper(node.left);
-      preOrderHelper(node.right);
-    }
+  void remove(){
+    swap(heap, 0, heap.length-1);
+    heap.remove(heap.length-1);
+    shiftDown(0);
   }
 
-  void postOrder() {
-    postOrderHelper(root);
+  void insert(int data){
+    heap.add(data);
+    shiftUp(heap.length-1);
   }
 
-  void postOrderHelper(Node? node) {
-    if (node != null) {
-      postOrderHelper(node.left);
-      postOrderHelper(node.right);
-      stdout.write("${node.data} ");
-    }
+  void swap(List<int>a,int i,int j){
+    int temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
   }
 
-  int findClose(int target) {
-    Node? current = root;
-    int closest = current!.data;
 
-    while (current != null) {
-      if ((target - closest).abs() < (target - current.data).abs()) {
-        closest = current.data;
-      }
-
-      if (target < current.data) {
-        current = current.left;
-      } else if (target > current.data) {
-        current = current.right;
-      } else {
-        break;
-      }
-    }
-    return closest;
-  }
-
-  void delete(int data) {
-    deleteHelper(data, root, null);
-  }
-
-  void deleteHelper(int data, Node? cuNode, Node? parent) {
-    while (cuNode != null) {
-      if (data < cuNode.data) {
-        parent = cuNode;
-        cuNode = cuNode.left;
-      } else if (data > cuNode.data) {
-        parent = cuNode;
-        cuNode = cuNode.right;
-      } else {
-        if (cuNode.left != null && cuNode.right != null) {
-          cuNode.data = getMin(cuNode.right);
-          deleteHelper(cuNode.data, cuNode.right, cuNode);
-        } else {
-          Node? child = (cuNode.left != null) ? cuNode.left : cuNode.right;
-          if (parent == null) {
-            root = child;
-          } else {
-            if (parent.left == cuNode) {
-              parent.left = child;
-            } else {
-              parent.right = child;
-            }
-          }
-        }
-        break;
-      }
-    }
-  }
-
-  int getMin(Node? node) {
-    if (node!.left == null) {
-      return node.data;
-    } else {
-      return getMin(node.left);
-    }
-  }
-}
-
-void main() {
-  BinaryTree tree = BinaryTree();
-
-  tree.insert(11);
-  tree.insert(6);
-  tree.insert(19);
-  tree.insert(4);
-  tree.insert(67);
-  tree.insert(43);
-  tree.insert(43);
-  tree.insert(8);
-  tree.insert(1);
-  tree.insert(10);
-  tree.insert(43);
-  tree.insert(31);
-  tree.insert(49);
-  //print(tree.contains(34));
-  // tree.inOrder()
-  // stdout.write(" \n");
-  // tree.preOrder();
-  // stdout.write(" \n");   
-  // // tree.postOrder();
-  // tree.delete();
-  tree.inOrder();
+  int parent(int i) => (i-1)~/2;
+  int leftChild(int i) => 2*i+1;
+  int rightChild(int i) => 2*i+2; 
 }

@@ -1,122 +1,103 @@
+import 'dart:collection';
+import 'dart:developer';
 
-class Node{
-  int data;
-  Node? left,right;
-  Node({required this.data});
-}
+class Graph{
+  HashMap<int,List<int>> graph = HashMap();
 
-class bst{
-
-  Node? root;
-
-  void insert(int data){
-    Node newNode = Node(data: data);
-    Node? currNode = root;
-    if(currNode==null){
-      root = newNode;
+  void insert(int vertex,int edge,bool bi){
+    if(!graph.containsKey(edge)){
+      graph[edge] = [];
     }
-    while(true){
-      if(data<currNode!.data){
-        if(currNode.left==null){
-          currNode.left=newNode;
-          break;
-        }
-        currNode = currNode.left;
-      }
-      else{
-        if(currNode.right==null){
-          currNode.right= newNode;
-          break;
-        }
-        currNode = currNode.right;
-      }
+    if(!graph.containsKey(vertex)){
+      graph[vertex] =[];
+    }
+    graph[vertex]?.add(edge);
+    if(bi){
+      graph[edge]?.add(vertex);
     }
   }
 
-  bool contains(int target){
-    Node? currNode=root;
-    while(currNode!=null){
-    if(target<currNode.data){
-      currNode=currNode.left;
-    }
-    else if(target>currNode.data){
-      currNode = currNode.right;
-    }
-    else{
-      return true;
-    }
-    }
-    return false;
+  void display(){
+    graph.forEach((key, value) {
+      print("$key : $value");
+    });
   }
 
-  int getClose(int target){
-    Node? currNode = root;
-    int closest = currNode!.data;
-
-    while(currNode!=null){
-
-      if((target-closest).abs() > (target-currNode.data).abs()){
-      closest = currNode.data;
+  void remove(int data){
+    if(graph.containsKey(data)){
+      graph.remove(data);
     }
-    if(target<currNode.data){
-      currNode= currNode.left;
-    }
-    else if(target > currNode.data){
-      currNode = currNode.right;
-    }
-    else{
-      break;
-    }
-    }
-        return closest;
+    graph.forEach((key, value) {
+      value.remove(data);
+    });
   }
 
-  void delete(int data){
-    deleteHelper(data, root, null);
-  }
-  void deleteHelper(int data,Node? currentNode,Node? parent){
-    while(currentNode != null){
-      if(data<currentNode.data){
-        currentNode = currentNode.left;
-      }
-      else if(data > currentNode.data){
-        currentNode = currentNode.right;
-      }
-      else{
-        if(currentNode.left!=null && currentNode.right!=null){
-          getMin(currentNode.right);
-          deleteHelper(data, currentNode.right, currentNode);
-        }
-        else{
-          Node? child = (currentNode.left!=null)? currentNode.left:currentNode.right;
-          if(parent==null){
-            root = child;
-          }
-          else{
-            if(parent.left == currentNode){
-              parent.left = child;
-            }
-            else{
-              parent.right = child;
-            }
+  void bfs(int startVertex){
+    Queue<int> queue = Queue();
+    Set<int> visited = Set();
+    queue.add(startVertex);
+    visited.add(startVertex);
+    while(queue.isNotEmpty){
+      int current = queue.removeFirst();
+      print(current);
+      
+      List<int>? lists = graph[current];
+      if(lists != null){
+        for(int n in lists){
+          if(!visited.contains(n)){
+            queue.add(n);
+            visited.add(n);
           }
         }
-        break;
+      }
+    }
+    graph.keys.forEach((vertex) {
+      if(visited.contains(vertex)){
+        print("disc:$vertex");
+      }
+    });
+    graph.keys.forEach((vertex) {
+      if(!visited.contains(vertex)){
+        print("disc : $vertex");
+      }
+    });
+  }
+
+ 
+  void dfsTraversal(int startIndex,Set<int>visited){
+    print(startIndex);
+    visited.add(startIndex);
+    List<int>? neighbours = graph[startIndex];
+    if(neighbours != null){
+      for(int n in neighbours){
+        if(!visited.contains(n)){
+          dfsTraversal(n,visited);
+        }
       }
     }
   }
 
-  int? getMin(Node? currNode){
-    if(currNode?.left ==  null){
-      return currNode?.data;
-    }
-    else{
-      return getMin(currNode?.left);
-    }
+   void dfs(){
+    Set<int>visited =Set();
+    graph.keys.forEach((vertex) {
+      if(!visited.contains(vertex)){
+        dfsTraversal(vertex, visited);
+      }
+    });
   }
-  
+
+ 
 }
 
 void main(){
+  Graph g = Graph();
+    g.insert(10, 2, true);
+  g.insert(2, 4, true);
+  g.insert(4, 8, true);
+  g.insert(18, 8, false);
+  g.insert(23, 4, false);
 
+  // g.display();
+// g.bfs(10);
+  g.dfs();
 }
