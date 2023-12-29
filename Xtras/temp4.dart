@@ -10,19 +10,19 @@ class trie{
 
   void insert(String str){
     trieNode temp = root;
-    for(int i =0;i<str.length;i++){
+    for(int i=0;i<str.length;i++){
       if(!temp.children.containsKey(str[i])){
-        trieNode newnode =trieNode();
-        temp.children[str[i]] = newnode;
+        trieNode newNode = trieNode();
+        temp.children[str[i]]=newNode;
       }
       temp = temp.children[str[i]];
     }
-    temp.isEnd = true;
+    temp.isEnd=true;
   }
 
-  bool contains (String str){
+  bool contains(String str){
     trieNode temp = root;
-    for(int i =0;i<str.length;i++){
+    for(int i=0;i<str.length;i++){
       if(temp.children[str[i]]==null || !temp.children.containsKey(str[i])){
         return false;
       }
@@ -30,10 +30,12 @@ class trie{
     }
     return true;
   }
+
 }
+
 
 void main(){
   trie t = trie();
   t.insert("asd");
-  print(t.contains('x'));
+  print(t.contains("d"));
 }
