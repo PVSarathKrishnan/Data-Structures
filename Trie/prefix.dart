@@ -2,35 +2,25 @@ import 'dart:collection';
 
 class TrieNode {
   HashMap children = HashMap();
+  bool? isEnd;
 }
 
 
 class Trie {
   TrieNode root = TrieNode();
-  String end = "*";
+  
 
-  Trie(String str) {
-    populateSuffixTrie(str);
-  }
-
-
-  void populateSuffixTrie(String str) {
-    for (int i = 0; i < str.length; i++) {
-      insertSubstringAt(i, str);
-    }
-  }
-
-  void insertSubstringAt(int index, String str) {
+  void insertSubstringAt(String str) {
     TrieNode temp = root;
 
-    for (int i = index; i < str.length; i++) {
+    for (int i = 0; i < str.length; i++) {
       if (!temp.children.containsKey(str[i])) { //if character is not present,create a node
         TrieNode newNode = TrieNode();
         temp.children[str[i]] = newNode;
       } 
       temp = temp.children[str[i]];
     }
-    temp.children[end] = TrieNode(); //mark end 
+    temp.isEnd=true;//mark end 
   }
 
 
@@ -44,13 +34,13 @@ class Trie {
       }
       temp = temp.children[str[i]];
     }
-    return temp.children.containsKey(end);
+    return true;
   }
 }
 
 void main() {
 
-  Trie newTrie = Trie("farhan");
-
-  print(newTrie.contains("arhan"));
+  Trie newTrie = Trie();
+  newTrie.insertSubstringAt("farhan");
+  print(newTrie.contains("fa"));
 }

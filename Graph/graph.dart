@@ -61,36 +61,32 @@ class Graph {
     });
   }
 
-  void dfsTraversal(int startVertex, Set<int> visited) {
-    print(startVertex);
-    visited.add(startVertex);
+  void dfs(int startVertex) {
+  Set<int> visited = Set();
 
-    List<int>? neighbors = graph[startVertex];
-    if (neighbors != null) {
-      for (int neighbor in neighbors) {
-        if (!visited.contains(neighbor)) {
-          dfsTraversal(neighbor, visited);
+  void dfsRecursive(int currentVertex) {
+    print(currentVertex);
+    visited.add(currentVertex);
+
+    List<int>? neighbours = graph[currentVertex];
+    // print(neighbours);
+    if (neighbours != null) {
+      for (int n in neighbours) {
+        if (!visited.contains(n)) {
+          dfsRecursive(n);
         }
       }
     }
   }
+  dfsRecursive(startVertex);
+  graph.keys.forEach((vertex) {
+    if (!visited.contains(vertex)) {
+      dfsRecursive(vertex);
+    }
+  });
+}
 
-  void dfs() {
-    Set<int> visited = Set();
 
-    graph.keys.forEach((vertex) {
-      if (!visited.contains(vertex)) {
-        dfsTraversal(vertex, visited);
-      }
-    });
-
-    // Display disconnected vertices
-    graph.keys.forEach((vertex) {
-      if (!visited.contains(vertex)) {
-        print("Disconnected Vertex: $vertex");
-      }
-    });
-  }
 }
 
 void main(List<String> args) {
@@ -101,9 +97,9 @@ void main(List<String> args) {
   g.insert(18, 8, false);
   g.insert(23, 4, false);
 
-  // g.display();
+  g.display();
 
-  print("");
-  // g.dfs();
-  g.bfsTraversal(10);
+  // print("");
+  // g.dfs(10);
+  // g.bfsTraversal(10);
 }

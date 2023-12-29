@@ -54,7 +54,7 @@ class minHeap{
 
   void remove(){
     swap(heap, 0, heap.length-1);
-    heap.remove(heap.length-1);
+    heap.removeLast();
     shiftDown(0);
   }
 
@@ -75,9 +75,7 @@ int rightChild(int i) => 2*i+2;
 
 
   void display(){
-    for(int i=0;i<heap.length;i++){
-      print(heap[i]);
-    }
+   print(heap);
   }
 
 }
@@ -91,6 +89,6 @@ void main(){
   m.insert(30);
   
   // print(m.peek());
-  // m.remove();
+  m.remove();
   m.display();
 }

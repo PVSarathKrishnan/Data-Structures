@@ -51,7 +51,7 @@ class MaxHeap {
 
   void remove() {
     swap(heap, 0, heap.length - 1);
-    heap.remove(heap.length - 1);
+    heap.removeLast();
     shiftDown(0);
   }
 
