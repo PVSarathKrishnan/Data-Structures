@@ -90,5 +90,18 @@ void main(){
   
   // print(m.peek());
   m.remove();
-  m.display();
+  // m.display();
+
+  List<int> sorted = heapSort(m);
+  print(sorted);
+}
+
+List<int> heapSort(minHeap m){
+  List<int> sorted = [];
+  while(m.heap.isNotEmpty){
+    int min = m.peek();
+    sorted.add(min);
+    m.remove();
+  }
+  return sorted;
 }
