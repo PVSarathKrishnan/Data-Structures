@@ -172,7 +172,24 @@ void main(){
   // b.inOrder();
   // b.preOrder();
   // b.postOrder();
-
-
   
+  //function call of isBst !
+   if (isBST(b.root, null, null)) {
+    print("The tree is a Binary Search Tree (BST).");
+  } else {
+    print("The tree is not a Binary Search Tree (BST).");
+  }
+}
+
+//new function of checking if the Given tree is BST or not!
+
+bool isBST(Node? node, int? min, int? max) {
+  if (node == null) return true;
+
+  if ((min != null && node.data! <= min) ||
+      (max != null && node.data! >= max)) {
+    return false;
+  }
+
+  return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
 }
