@@ -1,63 +1,72 @@
-
-import 'dart:collection';
-
-class Graph{
-
-  HashMap<int,List<int>> graph = HashMap();
-
-  void insert(int vertex,int edge,bool bi){
-    if(!graph.containsKey(vertex)){
-      graph[vertex]=[];
-    }
-    if(!graph.containsKey(edge)){
-      graph[edge] = [];
-    }
-    graph[vertex]?.add(edge);
-    if(bi){
-      graph[edge]?.add(vertex);
-    }
+class Node{
+  int? data;
+  Node? next;
+  Node(int data){
+    this.data=data;
   }
-
-  void display(){
-    graph.forEach((key, value) {
-      print("$key : $value");
-    });
-  }
-
-  void remove(int data){
-    if(graph.containsKey(data)){
-      graph.remove(data);
-      graph.forEach((key, value) {
-        value.remove(data);
-      });
-    }
-  }
-
-  void bfs(int startvertex){
-    Queue<int> queue = Queue();
-    Set<int>visited = Set();
-
-    queue.add(startvertex);
-    visited.add(startvertex);
-
-    while(queue.isNotEmpty){
-      int currentVertex = queue.removeFirst();
-      print(currentVertex);
-
-      
-    }
-  }
-
 }
 
-void main(){
-  Graph g = Graph();
+class single{
+  Node? head;
+  Node? tail;
 
-  g.insert(5, 10, true);
-  g.insert(6, 10, false);
-  g.insert(5, 10, false);
+  void display(){
+    Node? temp = head;
+    head??print("empty list");
+    while(temp!=null){
+      print(temp.data);
+      temp = temp.next;
+    }
+  }
 
-  g.remove(6);
+  void addValue(int data){
+    Node newNode = Node(data);
+    head??= newNode;
+    tail?.next = newNode;
+    tail = newNode;
+  }
 
-  g.display();
+  void addBeg(int data){
+    Node  newNode = Node(data);
+    newNode.next=head;
+    head=newNode;
+  }
+
+  void addEnd(int data){
+    Node newNode = Node(data);
+    tail?.next=newNode;
+    tail=newNode;
+  }
+
+  void addBefore(int target,int data){
+    Node newNode = Node(data);
+    Node? prev;
+    Node? temp = head;
+    if(temp?.data==target){
+      newNode.next=head;
+      head=newNode;
+    }
+    while(temp!=null){
+      if(temp.data == target){
+        break;
+      }
+      prev=temp;
+      temp=temp.next;
+    }
+    prev?.next=newNode;
+    newNode.next=temp;
+  }
+
+  void addAfter(int target,int data){
+    Node newNode =Node(data);
+    Node? temp = head;
+    while(temp!=null){
+      if(temp.data==target){
+        break;
+      }
+      temp = temp.next;
+    }
+    newNode.next=temp?.next;
+    temp?.next = newNode;
+  }
 }
